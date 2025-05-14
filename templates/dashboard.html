@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vault Security Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <i class="fas fa-shield-alt"></i>
+                <h1>VAULT SECURITY SYSTEM</h1>
+            </div>
+            <div class="header-stats">
+                <div class="stat-item">
+                    <span class="stat-label">System Status</span>
+                    <span class="stat-value" id="headerStatus">OFFLINE</span>
+                </div>
+                <div class="current-time" id="currentTime"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Dashboard -->
+    <main class="dashboard">
+        <div class="left-panel">
+            <!-- Live Video Feed -->
+            <section class="video-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-video"></i> Live Camera Feed</h2>
+                    <div class="camera-status" id="cameraStatus">
+                        <span class="status-dot offline"></span>
+                        <span>Camera 1</span>
+                    </div>
+                </div>
+                <div class="video-container">
+                    <img id="videoFeed" src="/static/images/no-signal.png" alt="Camera Feed">
+                    <div class="video-overlay">
+                        <div class="access-status" id="accessStatusOverlay">
+                            <span class="status-text">SYSTEM OFFLINE</span>
+                        </div>
+                        <div class="recording-badge" id="recordingBadge">
+                            <i class="fas fa-circle"></i>
+                            <span>REC</span>
+                        </div>
+                    </div>
+                    <div class="video-controls">
+                        <button class="control-btn" id="screenshotBtn" title="Take Screenshot">
+                            <i class="fas fa-camera"></i>
+                        </button>
+                        <button class="control-btn" id="fullscreenBtn" title="Fullscreen">
+                            <i class="fas fa-expand"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- System Metrics -->
+            <section class="metrics-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-chart-line"></i> System Metrics</h2>
+                </div>
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-icon people-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="metric-content">
+                            <span class="metric-label">People Detected</span>
+                            <span class="metric-value" id="peopleMetric">0/2</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon access-icon">
+                            <i class="fas fa-key"></i>
+                        </div>
+                        <div class="metric-content">
+                            <span class="metric-label">Access Status</span>
+                            <span class="metric-value" id="accessMetric">DENIED</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon recording-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <div class="metric-content">
+                            <span class="metric-label">Recording</span>
+                            <span class="metric-value" id="recordingMetric">NO</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon uptime-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="metric-content">
+                            <span class="metric-label">Uptime</span>
+                            <span class="metric-value" id="uptimeMetric">00:00:00</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="right-panel">
+            <!-- Control Panel -->
+            <section class="control-panel">
+                <div class="section-header">
+                    <h2><i class="fas fa-cogs"></i> System Control</h2>
+                    <div class="system-status" id="systemStatusIndicator">
+                        <span class="status-dot offline"></span>
+                        <span>OFFLINE</span>
+                    </div>
+                </div>
+                <div class="control-buttons">
+                    <button class="btn btn-primary" id="startBtn" onclick="startMonitoring()">
+                        <i class="fas fa-play"></i>
+                        <span>START MONITORING</span>
+                    </button>
+                    <button class="btn btn-danger" id="stopBtn" onclick="stopMonitoring()" disabled>
+                        <i class="fas fa-stop"></i>
+                        <span>STOP MONITORING</span>
+                    </button>
+                </div>
+                <div class="control-settings">
+                    <div class="setting-item">
+                        <label for="alertVolume">Alert Volume</label>
+                        <input type="range" id="alertVolume" min="0" max="100" value="50">
+                        <span id="volumeValue">50%</span>
+                    </div>
+                    <div class="setting-item">
+                        <label for="recordingQuality">Recording Quality</label>
+                        <select id="recordingQuality">
+                            <option value="720p">720p</option>
+                            <option value="1080p" selected>1080p</option>
+                            <option value="4k">4K</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recent Violations -->
+            <section class="violations-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-exclamation-triangle"></i> Recent Violations</h2>
+                    <div class="violation-count">
+                        <span id="violationCount">0</span> Total
+                    </div>
+                </div>
+                <div class="violations-list" id="violationsList">
+                    <div class="no-violations">
+                        <i class="fas fa-shield-check"></i>
+                        <p>No violations detected</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Actions -->
+            <section class="quick-actions">
+                <div class="section-header">
+                    <h2><i class="fas fa-bolt"></i> Quick Actions</h2>
+                </div>
+                <div class="action-buttons">
+                    <button class="action-btn" onclick="exportLogs()">
+                        <i class="fas fa-download"></i>
+                        <span>Export Logs</span>
+                    </button>
+                    <button class="action-btn" onclick="testAlarm()">
+                        <i class="fas fa-bell"></i>
+                        <span>Test Alarm</span>
+                    </button>
+                    <button class="action-btn" onclick="clearViolations()">
+                        <i class="fas fa-trash"></i>
+                        <span>Clear History</span>
+                    </button>
+                    <button class="action-btn" onclick="systemHealth()">
+                        <i class="fas fa-heartbeat"></i>
+                        <span>System Health</span>
+                    </button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Modal for Video Playback -->
+    <div class="modal" id="videoModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeVideoModal()">&times;</span>
+            <video id="modalVideo" controls>
+                <source src="" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+
+    <!-- Notification System -->
+    <div class="notification-container" id="notificationContainer"></div>
+
+    <!-- Scripts -->
+    <script src="/static/js/dashboard.js"></script>
+    <script src="/static/js/notifications.js"></script>
+    <script src="/static/js/socket-handler.js"></script>
+</body>
+</html>

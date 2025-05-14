@@ -1,0 +1,37 @@
+# requirements.txt - Backend Dependencies
+
+# Web Framework
+Flask==2.3.3
+Flask-SocketIO==5.3.6
+
+# Computer Vision & AI
+opencv-python==4.8.1.78
+ultralytics==8.0.165
+numpy==1.24.3
+
+# Database
+SQLAlchemy==2.0.23
+sqlite3
+
+# Real-time Communication
+python-socketio==5.9.0
+eventlet==0.33.3
+
+# File Handling & Storage
+Pillow==10.0.1
+av==10.0.0
+
+# Utilities
+python-dotenv==1.0.0
+requests==2.31.0
+python-dateutil==2.8.2
+
+# Audio handling (optional for alerts)
+pygame==2.5.2
+
+# Logging & Configuration
+python-json-logger==2.0.7
+
+# Development & Testing (optional)
+pytest==7.4.3
+black==23.9.1
