@@ -382,7 +382,7 @@ isort .
 
 ## License
 
-© 2024 South India Bank. All rights reserved.
+© 2024 All rights reserved.
 
 ## Version History
 
@@ -392,6 +392,5 @@ isort .
 - **v1.3.0** - Added compliance reporting
 - **v2.0.0** - Complete system rewrite with enhanced AI
 
----
 
 
