@@ -110,7 +110,7 @@ MAX_QUEUE_SIZE=200
 mysql -u root -p
 CREATE DATABASE _bank_security;
 CREATE USER 'bank_security'@'localhost' IDENTIFIED BY 'your_secure_password';
-GRANT ALL PRIVILEGES ON south_india_bank_security.* TO 'bank_security'@'localhost';
+GRANT ALL PRIVILEGES ON bank_security.* TO 'bank_security'@'localhost';
 FLUSH PRIVILEGES;
 EXIT;
 
@@ -331,10 +331,10 @@ curl http://localhost:8000/api/violations?limit=10
 ### Database Backup
 ```bash
 # Create backup
-mysqldump -u bank_security -p south_india_bank_security > backup_$(date +%Y%m%d).sql
+mysqldump -u bank_security -p bank_security > backup_$(date +%Y%m%d).sql
 
 # Restore backup
-mysql -u bank_security -p south_india_bank_security < backup_20240101.sql
+mysql -u bank_security -p bank_security < backup_20240101.sql
 ```
 
 ### Recordings Backup
