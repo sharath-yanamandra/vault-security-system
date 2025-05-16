@@ -4,14 +4,15 @@
 
 A comprehensive video surveillance system designed specifically for banking environments, featuring vault monitoring, ATM surveillance, and lobby security with AI-powered person detection and violation recording.
 
-![System Dashboard](static/images/dashboard-preview.png)
+![Screenshot](Screenshot%202025-05-14%20124522.jpg)
+![Alt text](image.png)
+
 
 ## Features
 
 ### 🏦 Banking-Specific Monitoring
 - **Vault Security**: Two-person rule enforcement
 - **ATM Monitoring**: Loitering and skimming detection
-- **Lobby Surveillance**: Crowd monitoring and suspicious behavior
 - **Cash Counter**: Transaction compliance monitoring
 
 ### 🛡️ Security Features
@@ -46,8 +47,8 @@ A comprehensive video surveillance system designed specifically for banking envi
 
 ### 1. Clone Repository
 ```bash
-git clone https://github.com/your-org/south-india-bank-security.git
-cd south-india-bank-security
+git clone <link to the repo>
+cd vault security system
 ```
 
 ### 2. Create Virtual Environment
@@ -78,7 +79,7 @@ Create a `.env` file in the root directory:
 MYSQL_HOST=localhost
 MYSQL_USER=bank_security
 MYSQL_PASSWORD=your_secure_password
-MYSQL_DATABASE=south_india_bank_security
+MYSQL_DATABASE=<db name>bank_security
 MYSQL_PORT=3306
 
 # AI Models
@@ -95,7 +96,7 @@ JWT_ALGORITHM=HS256
 ACCESS_TOKEN_EXPIRE_DAYS=30
 
 # Camera Configuration
-RTSP_URLS=rtsp://admin:password@192.168.1.100:554/stream1,rtsp://admin:password@192.168.1.101:554/stream1
+RTSP_URLS=<rtsp url>
 
 # Performance
 BATCH_SIZE=4
@@ -107,14 +108,14 @@ MAX_QUEUE_SIZE=200
 ```bash
 # Create database
 mysql -u root -p
-CREATE DATABASE south_india_bank_security;
+CREATE DATABASE _bank_security;
 CREATE USER 'bank_security'@'localhost' IDENTIFIED BY 'your_secure_password';
 GRANT ALL PRIVILEGES ON south_india_bank_security.* TO 'bank_security'@'localhost';
 FLUSH PRIVILEGES;
 EXIT;
 
 # Import schema
-mysql -u bank_security -p south_india_bank_security < schema.sql
+mysql -u bank_security -p bank_security < schema.sql
 ```
 
 ### 3. Camera Configuration
@@ -180,7 +181,7 @@ Open your browser and navigate to:
 camera:
   camera_id: "VAULT_01"
   name: "Main Vault Entry"
-  stream_url: "rtsp://admin:password@192.168.1.100:554/stream1"
+  stream_url: "rtsp url"
   type: "vault_monitoring"
 
 zones:
@@ -202,7 +203,7 @@ rules:
 camera:
   camera_id: "ATM_01"
   name: "ATM External"
-  stream_url: "rtsp://admin:password@192.168.1.101:554/stream1"
+  stream_url: "rtsp url"
   type: "atm_monitoring"
 
 zones:
