@@ -14,6 +14,7 @@ A comprehensive video surveillance system designed specifically for banking envi
 - **Vault Security**: Two-person rule enforcement
 - **ATM Monitoring**: Loitering and skimming detection
 - **Cash Counter**: Transaction compliance monitoring
+- **And more usecases coming
 
 ### 🛡️ Security Features
 - Real-time person detection with YOLO AI
