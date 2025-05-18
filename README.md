@@ -1,6 +1,6 @@
 # Vault Security Monitoring System
 
-## Overview
+## Overview of the system
 
 A comprehensive video surveillance system designed specifically for banking environments, featuring vault monitoring, ATM surveillance, and lobby security with AI-powered person detection and violation recording.
 
